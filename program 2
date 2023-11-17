@@ -1,78 +1,65 @@
 import tkinter as tk
 from tkinter import messagebox
 import random
+from PIL import Image, ImageTk
 
 def random_color():
-    # Generate a random color in the format #RRGGBB
     color = "#{:02x}{:02x}{:02x}".format(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
     return color
 
 def start_survey():
-    # Ask the user if they are ready to answer the survey
     ready_confirmation = messagebox.askquestion("Ready to Sail?", "Yo, ready to join the crew?, or you gonna miss out?")
 
-    # Hide the start button
     start_button.pack_forget()
-
-    # Hide the output label after showing it once
     start_output_label.pack_forget()
 
     if ready_confirmation == "yes":
-        # If yes, show the survey questions
         survey_frame.pack()
     else:
-        # If no, inform the user they're missing out
-        info_label.config(text="You're missing out, but no pressure! Come back when you're ready to sail. 😎", fg=random_color())
+        info_label.config(text="You're missing out, but no pressure! Come back when you're ready to sail.  ⛵😎", fg=random_color(), font=("Segoe UI", 14))
 
 def show_user_info():
     user_name = name_entry.get()
     user_age = age_entry.get()
     user_address = address_entry.get()
 
-    # Set a random color for the output
     color = random_color()
 
-    # Ask for confirmation
     confirmation = messagebox.askquestion("Confirmation", "Is this information correct?")
 
     if confirmation == "yes":
-        # If yes, show congrats message
         output_text = "Congrats, you're officially part of the crew! Welcome to the Strawhats!"
 
-        # Display only the answers without the questions
-        final_output_text = f"\n User Info Alert! \nHey there, {user_name}! You're rockin' {user_age} years of awesomeness.\nLiving it up at {user_address}, right? Nice choice, nakama! "
+        final_output_text = f"\n Welcome nakama! \nHey there, {user_name}! You've mastered {user_age} years of awesomeness.\nLet's meet you at {user_address}, right? See you, nakama! "
 
-        final_info_label.config(text=final_output_text, fg=color)
+        final_info_label.config(text=final_output_text, fg=color, font=("Segoe UI", 32))
 
-        # Show the buttons for changing color and resetting the survey at the final output
+        # Centering the label
+        final_info_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
         change_color_button.pack()
         reset_survey_button.pack()
 
-        # Hide the survey questions
         survey_frame.pack_forget()
     else:
-        # If no, show try-again message and clear the entry fields
         output_text = "Whoops! Try again and drop the real 411, friend. You got this! "
         name_entry.delete(0, tk.END)
         age_entry.delete(0, tk.END)
         address_entry.delete(0, tk.END)
 
-        # Don't display final info if the user chooses "No"
-        final_info_label.config(text="")
+        final_info_label.config(text="", font=("Segoe UI", 12))
 
-    info_label.config(text=output_text, fg=color)
+    info_label.config(text=output_text, fg=color, font=("Segoe UI", 14))
 
 def change_output_color():
-    # Change the color of the final output randomly
     final_info_label.config(fg=random_color())
 
 def reset_survey():
-    # Reset the survey by clearing entry fields and hiding final output
     name_entry.delete(0, tk.END)
     age_entry.delete(0, tk.END)
     address_entry.delete(0, tk.END)
-    final_info_label.config(text="")
-    info_label.config(text="")
+    final_info_label.config(text="", font=("Segoe UI", 12))
+    info_label.config(text="", font=("Segoe UI", 14))
     change_color_button.pack_forget()
     reset_survey_button.pack_forget()
     start_button.pack()
@@ -81,48 +68,52 @@ def reset_survey():
 window = tk.Tk()
 window.title("User Information")
 
+# Size of the window
+window.attributes("-fullscreen", True)
+
+# Open the image with Pillow
+original_image = Image.open("C:/Users/admin/OneDrive/Documents/Melissa/CHEM/onepiece.png")
+
+# Convert the Pillow image to a Tkinter-compatible format
+tk_image = ImageTk.PhotoImage(original_image)
+
+# Use tk_image as the background image of the window
+bg_label = tk.Label(window, image=tk_image)
+bg_label.place(relwidth=1, relheight=1)
+
 # Start Survey Frame
-survey_frame = tk.Frame(window)
+survey_frame = tk.Frame(window, bg='white')
 
 # Create and place labels and entry widgets in the survey frame
-tk.Label(survey_frame, text="Yo, what's your name? ").pack()
+tk.Label(survey_frame, text="Yo, what's your name? ", font=("Segoe UI", 14)).pack()
 name_entry = tk.Entry(survey_frame)
 name_entry.pack()
 
-tk.Label(survey_frame, text="How many times have you leveled up in this game of life? ").pack()
+tk.Label(survey_frame, text="How many times have you leveled up in this game of life? ", font=("Segoe UI", 14)).pack()
 age_entry = tk.Entry(survey_frame)
 age_entry.pack()
 
-tk.Label(survey_frame, text="What's your spot on the map? ").pack()
+tk.Label(survey_frame, text="What's your spot on the map? ", font=("Segoe UI", 14)).pack()
 address_entry = tk.Entry(survey_frame)
 address_entry.pack()
 
-# Button to show the user info
-tk.Button(survey_frame, text="Show Information", command=show_user_info).pack()
+tk.Button(survey_frame, text="Show Information", command=show_user_info, font=("Segoe UI", 14)).pack()
 
 # End Survey Frame
 
-# Button to start the survey
-start_button = tk.Button(window, text="Start", command=start_survey)
+start_button = tk.Button(window, text="Start", command=start_survey, font=("Segoe UI", 16))
 start_button.pack()
 
-# Label to display the user info (success or try again)
-info_label = tk.Label(window, text="")
+info_label = tk.Label(window, text="", font=("Segoe UI", 14))
 info_label.pack()
 
-# Label to display the output of the start question
-start_output_label = tk.Label(window, text="")
+start_output_label = tk.Label(window, text="", font=("Segoe UI", 14))
 start_output_label.pack()
 
-# Label to display the final user info
-final_info_label = tk.Label(window, text="")
+final_info_label = tk.Label(window, text="", font=("Segoe UI", 16))
 final_info_label.pack()
 
-# Button to change the color of the final output
-change_color_button = tk.Button(window, text="Click me", command=change_output_color)
+change_color_button = tk.Button(window, text="Click me", command=change_output_color, font=("Segoe UI", 14))
+reset_survey_button = tk.Button(window, text="Reset Survey", command=reset_survey, font=("Segoe UI", 14))
 
-# Button to reset the survey
-reset_survey_button = tk.Button(window, text="Reset Survey", command=reset_survey)
-
-# Start the Tkinter event loop
 window.mainloop()
