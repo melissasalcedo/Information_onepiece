@@ -30,12 +30,9 @@ def show_user_info():
     if confirmation == "yes":
         output_text = "Congrats, you're officially part of the crew! Welcome to the Strawhats!"
 
-        final_output_text = f"\n Welcome nakama! \nHey there, {user_name}! You've mastered {user_age} years of awesomeness.\nLet's meet you at {user_address}, right? See you, nakama! "
+        final_output_text = f"\n Welcome nakama! \nHey there, {user_name}! You've mastered {user_age} years of awesomeness.\nLiving it up at {user_address}, right? Nice choice, nakama! "
 
-        final_info_label.config(text=final_output_text, fg=color, font=("Segoe UI", 32))
-
-        # Centering the label
-        final_info_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+        final_info_label.config(text=final_output_text, fg=color, font=("Segoe UI", 16))
 
         change_color_button.pack()
         reset_survey_button.pack()
@@ -72,7 +69,7 @@ window.title("User Information")
 window.attributes("-fullscreen", True)
 
 # Open the image with Pillow
-original_image = Image.open("C:/Users/admin/OneDrive/Documents/Melissa/CHEM/onepiece.png")
+original_image = Image.open("C:/Users/admin/OneDrive/Documents/Melissa/PLD/onepiece.png")
 
 # Convert the Pillow image to a Tkinter-compatible format
 tk_image = ImageTk.PhotoImage(original_image)
